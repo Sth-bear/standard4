@@ -18,8 +18,9 @@ class DetailActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        val selectedCard = intent.getParcelableExtra("selectedData", CardInfo::class.java)
-        selectedCard?.let { putEachData(it) }
+//        val selectedCard = intent.getParcelableExtra("selectedData", CardInfo::class.java)
+        val bundle = intent.getBundleExtra("selectedData")
+        bundle?.getParcelable<CardInfo>("selectedData")?.let { putEachData(it) }
     }
 
     private fun putEachData(card: CardInfo) {

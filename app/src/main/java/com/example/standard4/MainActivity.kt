@@ -26,11 +26,13 @@ class MainActivity : AppCompatActivity() {
         binding.cardView.adapter = adapter
         binding.cardView.layoutManager = LinearLayoutManager(this)
         binding.cardView.addItemDecoration(ItemSpace(this,15))
+        val bundle = Bundle()
         adapter.itemClick = object : CardAdapter.ItemClick {
             override fun onClick(view: View, position: Int) {
                 val selectedCard = CardList.cardList[position]
+                bundle.putParcelable("selectedData", selectedCard)
                 val intent = Intent(this@MainActivity, DetailActivity::class.java)
-                intent.putExtra("selectedData", selectedCard)
+                intent.putExtra("selectedData", bundle)
                 startActivity(intent)
             }
         }
