@@ -2,13 +2,23 @@ package com.example.standard4
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.standard4.data.CardInfo
 import com.example.standard4.databinding.ActivityDetailBinding
+import com.example.standard4.extension.extraNotNull
 
 class DetailActivity : AppCompatActivity() {
     private val binding by lazy { ActivityDetailBinding.inflate(layoutInflater) }
+    private val cardViewModel by viewModels<CardViewModel> {
+        CardViewModelFactory()
+    }
+    companion object {
+        const val EXTRA_CARD: String = "extra_card" //싱글톤으로 선언. 어디서든지 해당 value를 사용하면 다음으로 대체됨
+    }
+    private val cardId by extraNotNull<Long>(EXTRA_CARD)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -19,14 +29,11 @@ class DetailActivity : AppCompatActivity() {
             insets
         }
 //        val selectedCard = intent.getParcelableExtra("selectedData", CardInfo::class.java)
-        val bundle = intent.getBundleExtra("selectedData")
-        bundle?.getParcelable<CardInfo>("selectedData")?.let { putEachData(it) }
-    }
-
-    private fun putEachData(card: CardInfo) {
-        binding.tvDetailDate.text = "유효기간: ${card.date}"
-        binding.tvDetailName.text = "이름: ${card.name}"
-        binding.tvDetailPrice.text = "가격: ${card.price}"
-        binding.tvDetailNumber.text = "카드 번호: ${card.number}"
+//        val card = intent.getParcelableExtra<CardInfo>(EXTRA_CARD)
+        val card = cardViewModel.getCardForId(cardId)
+        binding.tvDetailName.text = card.name
+        binding.tvDetailNumber.text = card.number
+        binding.tvDetailPrice.text = card.price
+        binding.tvDetailDate.text = card.date
     }
 }
