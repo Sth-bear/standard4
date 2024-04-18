@@ -9,7 +9,10 @@ class CardViewModel(val dataSource: DataSource): ViewModel() {
     val cardLiveData = dataSource.getCardList()
 
     fun getCardForId(id:Long):CardInfo {
-        return cardLiveData[id.toInt()]
+//        return cardLiveData[id.toInt()] //실제 id값으로 하고 싶다면 ->
+        cardLiveData.let {card ->
+            return card.first{it.id == id}
+        }
     }
 }
 

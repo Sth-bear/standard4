@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         cardAdapter.itemClick = object : CardAdapter.ItemClick {
             override fun onClick(view: View, position: Int) {
                 launchActivity<DetailActivity>(
-                    DetailActivity.EXTRA_CARD to cardList()[position] // cardlist의 position값의 id만 가지고 lunch
+                    DetailActivity.EXTRA_CARD to cardList()[position].id // cardlist의 position값의 id만 가지고 lunch
                 )
 //                val bundle = Bundle().apply {
 //                    val selectedCard = DataSource.getDataSource().getCardForID(position.toLong()+1) // position은 0부터, id를 1부터부여
